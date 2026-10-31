@@ -1825,6 +1825,10 @@ static void localstat (LexState *ls) {
   Vardesc *var;  /* last variable */
   int vidx;  /* index of last variable */
   int nvars = 0;
+  int is_num = testnext(ls,TK_NUM);
+   if (!is_num) {
+      lexerror(ls,"num degisken turu eklenmeden degisken tanimlanamaz",0);
+   }
   int nexps;
   expdesc e;
   /* get prefixed attribute (if any); default is regular local variable */
