@@ -1,0 +1,23 @@
+name: Compile Modified Lua
+
+on: [push]
+
+jobs:
+  build:
+  # GitHub'ın ücretsiz Linux bulut bilgisayarını kullanıyoruz
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repoyu indir
+      uses: actions/checkout@v4
+
+    - name: Lua'yı Derle (Build)
+      run: |
+        # Lua'nın kendi Makefile yapısına göre linux için derleme komutu
+        make linux
+
+    - name: Derlenen Lua Dosyasını Kaydet (Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: modifiye-lua-binary
+        path: lua
