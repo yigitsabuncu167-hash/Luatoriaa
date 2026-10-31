@@ -1,23 +1,26 @@
-name: Compile Modified Lua
+name: Build Luatoria
 
-on: [push]
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
 
 jobs:
   build:
-  # GitHub'ın ücretsiz Linux bulut bilgisayarını kullanıyoruz
     runs-on: ubuntu-latest
 
     steps:
-    - name: Repoyu indir
+    - name: Repoyu Kopyala (Checkout)
       uses: actions/checkout@v4
 
-    - name: Lua'yı Derle (Build)
+    - name: Lua / Luatoria Projesini Derle
       run: |
-        # Lua'nın kendi Makefile yapısına göre linux için derleme komutu
+        # Standart Lua Makefile yapısını kullanarak Linux için derleme yapıyoruz
         make linux
 
-    - name: Derlenen Lua Dosyasını Kaydet (Artifact)
+    - name: Derlenen Binary Dosyasını Kaydet (Artifact)
       uses: actions/upload-artifact@v4
       with:
-        name: modifiye-lua-binary
-        path: lua
+        name: luatoria-binary
+        path: src/lua
