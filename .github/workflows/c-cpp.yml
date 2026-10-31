@@ -1,23 +1,23 @@
-name: C/C++ CI
+name: Compile Modified Lua
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push]
 
 jobs:
   build:
-
+  # GitHub'ın ücretsiz Linux bulut bilgisayarını kullanıyoruz
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Repoyu indir
+      uses: actions/checkout@v4
+
+    - name: Lua'yı Derle (Build)
+      run: |
+        # Lua'nın kendi Makefile yapısına göre linux için derleme komutu
+        make linux
+
+    - name: Derlenen Lua Dosyasını Kaydet (Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: modifiye-lua-binary
+        path: lua
