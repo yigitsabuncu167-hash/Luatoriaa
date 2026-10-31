@@ -1827,7 +1827,7 @@ static void localstat (LexState *ls) {
   int nvars = 0;
   int is_num = testnext(ls,TK_NUM);
    if (!is_num) {
-      lexerror(ls,"num degisken turu eklenmeden degisken tanimlanamaz",0);
+      luaX_syntaxerror(ls,"num degisken turu eklenmeden degisken tanimlanamaz",0);
    }
   int nexps;
   expdesc e;
