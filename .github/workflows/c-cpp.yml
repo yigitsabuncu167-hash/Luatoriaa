@@ -14,10 +14,15 @@ jobs:
     - name: Repoyu Kopyala (Checkout)
       uses: actions/checkout@v4
 
-    - name: Lua / Luatoria Projesini Derle
+    - name: Derleme Araçlarını ve Bağımlılıkları Kur
       run: |
-        # Standart Lua Makefile yapısını kullanarak Linux için derleme yapıyoruz
-        make linux
+        sudo apt-get update
+        sudo apt-get install -y build-essential libreadline-dev
+
+    - name: Luatoria Projesini Derle
+      run: |
+        # Linux / Ubuntu ortamı için en kararlı hedef posix'tir
+        make posix
 
     - name: Derlenen Binary Dosyasını Kaydet (Artifact)
       uses: actions/upload-artifact@v4
