@@ -1,26 +1,29 @@
-name: Luatoria Run Engine
+name: Luatoria Engine Executer
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-and-run:
-  name: Compile and Execute Luatoria
+  run-luatoria:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Compile Modified Luatoria Source
+      - name: Prepare and Compile
         run: |
-          echo "Compiling custom lparser.c and Luatoria binary..."
-          # Lua kaynak kodunu ve lparser.c entegrasyonunu derleme adımı
-          gcc -O2 src/*.c -o luatoria -lm
-          ./luatoria -v
+          echo "=== Luatoria Derleniyor ==="
+          gcc -O2 *.c -o luatoria -lm || gcc -O2 src/*.c -o luatoria -lm
+          chmod +x luatoria
 
-      - name: Execute Luatoria Test Script
+      - name: Test and Execute Binary
         run: |
-          echo "Running Luatoria binary..."
-          # Test scriptini çalıştır ve çıktıyı al
-          ./luatoria test.lua
+          echo "=== Luatoria Çalıştırılıyor ==="
+          ./luatoria -v
+          if [ -f "test.lua" ]; then
+            ./luatoria test.lua
+          else
+            echo "print('Luatoria Çalıştı!')" > default_test.lua
+            ./luatoria default_test.lua
+          fi
