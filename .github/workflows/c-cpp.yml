@@ -27,7 +27,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: luatoria-binary
-        path: |
-          src/lua
-          src/*.o
-          src/*.a
+        path: lua
