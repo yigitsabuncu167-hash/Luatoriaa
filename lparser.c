@@ -1826,8 +1826,13 @@ static void localstat (LexState *ls) {
   int vidx;  /* index of last variable */
   int nvars = 0;
   int is_num = testnext(ls,TK_NUM);
-   if (!is_num) {
+   nexps = explist(ls,&e);
+   if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE)) 
+   {
       luaX_syntaxerror(ls, "num degisken turu eklenmeden degisken tanımlanamaz");
+   }
+   if (!is_num) {
+      luaK_syntaxerror(ls,"num degiskeni hqtasi")
    }
   int nexps;
   expdesc e;
@@ -1839,7 +1844,7 @@ static void localstat (LexState *ls) {
     vidx = new_varkind(ls, vname, kind);  /* predeclare it */
     if (kind == RDKTOCLOSE) {  /* to-be-closed? */
       if (toclose != -1)  /* one already present? */
-        luaK_semerror(ls, "multiple to-be-closed variables in local list");
+        luaK_syntaxerror(ls, "multiple to-be-closed variables in local list");
       toclose = fs->nactvar + nvars;
     }
     nvars++;
