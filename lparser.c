@@ -1847,7 +1847,7 @@ static void localstat (LexState *ls) {
   } while (testnext(ls, ','));
   if (testnext(ls, '=')) {
      nexps = explist(ls, &e);
-     if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE)
+     if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE))
         luaK_semerror(ls,"num degiskenine sayi olmayan deger atanamaz");
   }  /* initialization? */
     nexps = explist(ls, &e);
