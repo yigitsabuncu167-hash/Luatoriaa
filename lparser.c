@@ -1840,7 +1840,7 @@ static void localstat (LexState *ls) {
     vidx = new_varkind(ls, vname, kind);  /* predeclare it */
     if (kind == RDKTOCLOSE) {  /* to-be-closed? */
       if (toclose != -1)  /* one already present? */
-        luaK_syntaxerror(ls, "multiple to-be-closed variables in local list");
+        luaK_semerror(ls, "multiple to-be-closed variables in local list");
       toclose = fs->nactvar + nvars;
     }
     nvars++;
@@ -1849,8 +1849,7 @@ static void localstat (LexState *ls) {
      nexps = explist(ls, &e);
      if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE))
         luaK_semerror(ls,"num degiskenine sayi olmayan deger atanamaz");
-  }  /* initialization? */
-    nexps = explist(ls, &e);
+  }  
   else {
     e.k = VVOID;
     nexps = 0;
