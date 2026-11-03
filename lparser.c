@@ -1825,17 +1825,13 @@ static void localstat (LexState *ls) {
   Vardesc *var;  /* last variable */
   int vidx;  /* index of last variable */
   int nvars = 0;
+  int nexps;
+  expdesc e;
   int is_num = testnext(ls,TK_NUM);
-   nexps = explist(ls,&e);
-   if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE)) 
+   if (!is_num) 
    {
       luaX_syntaxerror(ls, "num degisken turu eklenmeden degisken tanımlanamaz");
    }
-   if (!is_num) {
-      luaK_syntaxerror(ls,"num degiskeni hqtasi")
-   }
-  int nexps;
-  expdesc e;
   /* get prefixed attribute (if any); default is regular local variable */
   lu_byte defkind = getvarattribute(ls, VDKREG);
   do {  /* for each variable */
@@ -1849,7 +1845,11 @@ static void localstat (LexState *ls) {
     }
     nvars++;
   } while (testnext(ls, ','));
-  if (testnext(ls, '='))  /* initialization? */
+  if (testnext(ls, '=')) {
+     nexps = explist(ls, &e);
+     if (nexps == 1 && (e.k == VKSTR || e.k == VNIL || e.k == VTRUE || e.k == VFALSE)
+        luaK_semerror(ls,"num degiskenine sayi olmayan deger atanamaz");
+  }  /* initialization? */
     nexps = explist(ls, &e);
   else {
     e.k = VVOID;
